@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="toolbar" role="banner">
+    <span>The RxJS Workshop&trade;</span>
+    <div class="spacer"><span>Flashcard</span></div>
+  </div>
+
+  <main class="main" *ngIf="vm$ | async as vm">
+    <div class="test">
+      <div class="question-container">
+        <div class="question" *ngIf="!vm.isTestComplete">
+          <span>Question {{ vm.userTest.qId}} of {{ vm.numTestItems}}:</span>
+          <span>{{ vm.userTest.question }}</span>
+        </div>
+        <div class="complete" *ngIf="vm.isTestComplete">Test Complete</div>
+      </div>
+      <div class="next">
+        <button class="btn btn-primary" [disabled]="vm.isLast || !vm.submittedResult" (click)="nextTest(vm.userTest.qId)">Next</button>
+      </div>
+      <div class="flashcards">
+        <ng-container *ngFor="let option of vm.userTest.options">
+          <div class="card" [ngClass]="{'selected': option.isSelected, 'submitted': vm.submittedResult}" (click)="selectCard(option, vm.submittedResult)">
+            <div class="card-inner">
+              <div class="card-front">{{ option.description }}</div>
+              <div class="card-back">{{ option.description }}</div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="footer">
+        <div class="footer-left" [ngStyle]="{'visibility':vm.isTestComplete ? 'visible' : 'hidden'}">
+          <div class="title">Summary:</div>
+          <div class="summary-info" *ngIf="vm.score">
+            <div class="info total-correct">
+              <span>Total Correct:</span>
+              <span>{{ vm.score.numCorrect }}</span>
+            </div>
+            <div class="info total-incorrect">
+              <span>Total Incorrect:</span>
+              <span>{{ vm.score.numIncorrect }}</span>
+            </div>
+            <div class="info score">
+              <span>Score:</span>
+              <span>{{ vm.score.percentage }}%</span>
+            </div>
+          </div>
+        </div>
+        <div class="footer-right">
+          <div class="question-result">
+            <span *ngIf="vm.userTest.result === false">❌ INCORRECT</span>
+            <span *ngIf="vm.userTest.result === true">✅ CORRECT</span>
+          </div>
+          <button class="btn btn-primary" [disabled]="!vm.userTest.selectionsMade || vm.submittedResult" (click)="submit()">Submit
+            Answer</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

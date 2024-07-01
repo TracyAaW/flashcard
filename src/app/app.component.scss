@@ -1,0 +1,223 @@
+:host {
+
+  .container {
+
+    display: grid;
+    grid-template-rows: 60px 1fr;
+  }
+
+  .toolbar {
+
+    display: flex;
+    align-items: center;
+    background-color: #14591D;
+    color: #d7f75b;
+    font-size: 1.5rem;
+    font-weight: 600;
+    box-shadow: 0 3px 5px -1px rgb(0 0 0 / 20%), 0 6px 10px 0 rgb(0 0 0 / 14%), 0 1px 18px 0 rgb(0 0 0 / 12%);
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1000;
+  }
+
+  .toolbar span {
+    margin: 0 16px;
+  }
+
+  .main {
+    padding: 1rem;
+
+    display: grid;
+    grid-template-columns: minmax(auto, 1430px);
+    justify-content: center;
+  }
+
+  .test {
+
+    display: grid;
+    grid-template-rows: 6rem auto 1fr 6rem;
+    gap: 1rem;
+
+    .question-container {
+      padding: 0 2rem;
+
+      display: grid;
+      grid-template-columns: auto max-content;
+      gap: 10px;
+      align-items: center;
+
+      .question {
+
+        font-size: 1.5rem;
+
+        display: flex;
+        flex-direction: column;
+
+        span:first-child {
+          font-size: 1.25rem;
+          font-style: italic;
+        }
+      }
+
+      .complete {
+        font-size: 2rem;
+        background-color: #D9711C;
+        color: white;
+        padding: 0 0.5rem;
+        border-radius: 5px;
+        width: 100%;
+      }
+    }
+    
+    .next {
+      padding-right: 2rem;
+      display: flex;
+      justify-content: end;
+    }
+
+    .flashcards {
+
+      list-style: none;
+      position: relative;
+
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(325px, auto));
+      gap: 1.5rem;
+      justify-content: center;
+      align-items: center;
+
+      .card {
+
+        position: relative;
+        cursor: pointer;
+
+        background-color: transparent;
+        perspective: 1000px;
+
+        font-size: 1.5rem;
+        height: 10rem;
+        border-radius: 5px;
+        // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+
+        &.selected .card-inner,
+        &:hover:not(.submitted) .card-inner {
+          transform: rotateY(-180deg);
+        }
+
+        .card-inner {
+
+          height: 100%;
+          width: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          transition: transform 0.6s;
+          transform-style: preserve-3d;
+
+          .card-front,
+          .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .card-back {
+            background-color: #D9711C;
+            color: white;
+            // opacity: .6;
+            transform: rotateY(180deg);
+          }
+        }
+      }
+    }
+
+    .footer {
+
+      padding: 2rem;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      .footer-left {
+
+        justify-self: start;
+
+        .title {
+          font-size: 1.25rem;
+          font-style: italic;
+          margin-bottom: 1rem;
+        }
+
+        .summary-info {
+
+          display: grid;
+          grid-template-rows: 1fr 1fr 1fr;
+          gap: 5px;
+
+          .info {
+
+            display: grid;
+            grid-template-columns: 10rem 3rem;
+            gap: 1rem;
+
+            &.score {
+              font-size: 1.25rem;
+              font-style: italic;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+
+      .footer-right {
+        justify-self: end;
+
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+
+        .question-result {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 600;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.75rem 1.75rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.btn.btn-primary:active,
+.btn.btn-primary:focus,
+.btn.btn-primary {
+  background-color: #14591D;
+  color: #d7f75b;
+
+  &:disabled {
+    color: gray;
+    background-color: lightgray;
+  }
+}
