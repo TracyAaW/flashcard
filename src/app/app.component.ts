@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { combineLatest, map, Observable, of } from 'rxjs';
 import { Option, Score, TestItem } from './app.models';
 import { CommonModule } from '@angular/common';
 import { AppService } from './app.service';
@@ -26,16 +26,30 @@ export class AppComponent implements OnInit {
   
   private appService: AppService = inject(AppService);
 
-  vm$: Observable<VM> = of({
-    userTest: {},
-    numTestItems: 0,
-    submittedResult: false,
-    isLast: false,
-    score: null,
-    isTestComplete: false
-  } as VM);
+  vm$: Observable<VM> = combineLatest([
+    this.appService.userTest$,
+    this.appService.testLength$,
+    this.appService.submittedResult$,
+    this.appService.isLast$,
+    this.appService.score$,
+    this.appService.isTestComplete$
+  ]).pipe(
+    map(([userTest, numTestItems, submittedResult, isLast, score, isTestComplete]: [TestItem, number, boolean, boolean, Score | null, boolean]) => {
+      return {
+        userTest,
+        numTestItems,
+        submittedResult,
+        isLast,
+        score,
+        isTestComplete
+      }
+    })
+  );
 
   ngOnInit(): void {
+    this.vm$.subscribe({
+      next: vm => console.log('vm$', JSON.stringify(vm, null, "\t"))
+    })
   }
 
   selectCard(selection: Option, wasSubmitted: boolean) {
